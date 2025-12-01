@@ -32,14 +32,14 @@ class TransactionManager: ObservableObject {
             self.transactions.append(transaction)
             self.updateAnalytics()
             self.uiManager.triggerHaptic(.light)
-            
+            self.updateAllAnalytics()
             print("✅ Добавлена транзакция: \(transaction.description) - \(transaction.amount) BYN")
             print("📊 Транзакций всего: \(self.transactions.count)")
             
             // Запускаем аналитику в фоне, но обновления будут на главном потоке
-            DispatchQueue.global(qos: .userInitiated).async {
-                self.updateAllAnalytics()
-            }
+//            DispatchQueue.global(qos: .userInitiated).async {
+//                self.updateAllAnalytics()
+//            }
         }
     }
     
@@ -60,7 +60,7 @@ class TransactionManager: ObservableObject {
         print("🔄 Начинаем полное обновление аналитики...")
         
         // Все обновления должны быть на главном потоке
-        DispatchQueue.main.async {
+      //  DispatchQueue.main.async {
             self.updateAnalytics()
             
             let trendsBefore = self.analyticsEngine.spendingTrends.count
@@ -78,7 +78,7 @@ class TransactionManager: ObservableObject {
             
             // Уведомляем об изменениях (уже на главном потоке)
             self.objectWillChange.send()
-        }
+        //}
     }
         
     private func updateAnalytics() {

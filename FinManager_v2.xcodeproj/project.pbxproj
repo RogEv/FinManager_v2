@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BB79423D8F871C5098EA4024 /* Pods_FinManager_v2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EE5DD6E69324F3C7D33E51 /* Pods_FinManager_v2.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		30EE5DD6E69324F3C7D33E51 /* Pods_FinManager_v2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinManager_v2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52D1465A2EDB0943000BCFCC /* FinManager_v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinManager_v2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF687B5D6CE095BEC616C1D1 /* Pods-FinManager_v2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinManager_v2.release.xcconfig"; path = "Target Support Files/Pods-FinManager_v2/Pods-FinManager_v2.release.xcconfig"; sourceTree = "<group>"; };
+		E8BCEFF0083D970FEFC53116 /* Pods-FinManager_v2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinManager_v2.debug.xcconfig"; path = "Target Support Files/Pods-FinManager_v2/Pods-FinManager_v2.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,17 +30,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB79423D8F871C5098EA4024 /* Pods_FinManager_v2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4EE0382EDF4E046797F969E1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				30EE5DD6E69324F3C7D33E51 /* Pods_FinManager_v2.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		52655185F47E1F9C51688180 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E8BCEFF0083D970FEFC53116 /* Pods-FinManager_v2.debug.xcconfig */,
+				BF687B5D6CE095BEC616C1D1 /* Pods-FinManager_v2.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		52D146512EDB0943000BCFCC = {
 			isa = PBXGroup;
 			children = (
 				52D1465C2EDB0943000BCFCC /* FinManager_v2 */,
 				52D1465B2EDB0943000BCFCC /* Products */,
+				52655185F47E1F9C51688180 /* Pods */,
+				4EE0382EDF4E046797F969E1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,9 +79,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52D146652EDB0945000BCFCC /* Build configuration list for PBXNativeTarget "FinManager_v2" */;
 			buildPhases = (
+				1C60A4F0BC7DD783EB416D98 /* [CP] Check Pods Manifest.lock */,
 				52D146562EDB0943000BCFCC /* Sources */,
 				52D146572EDB0943000BCFCC /* Frameworks */,
 				52D146582EDB0943000BCFCC /* Resources */,
+				FDDF51780A18D81764158993 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -64,8 +93,6 @@
 				52D1465C2EDB0943000BCFCC /* FinManager_v2 */,
 			);
 			name = FinManager_v2;
-			packageProductDependencies = (
-			);
 			productName = FinManager_v2;
 			productReference = 52D1465A2EDB0943000BCFCC /* FinManager_v2.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +140,52 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1C60A4F0BC7DD783EB416D98 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FinManager_v2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDDF51780A18D81764158993 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FinManager_v2/Pods-FinManager_v2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FinManager_v2/Pods-FinManager_v2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinManager_v2/Pods-FinManager_v2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		52D146562EDB0943000BCFCC /* Sources */ = {
@@ -162,7 +235,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -225,7 +298,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -246,6 +319,7 @@
 		};
 		52D146662EDB0945000BCFCC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8BCEFF0083D970FEFC53116 /* Pods-FinManager_v2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -274,6 +348,7 @@
 		};
 		52D146672EDB0945000BCFCC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF687B5D6CE095BEC616C1D1 /* Pods-FinManager_v2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
