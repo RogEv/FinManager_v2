@@ -11,20 +11,35 @@ class TransactionManager: ObservableObject {
     @Published var transactions: [FinancialTransaction] = []
     @Published var monthlySummary: MonthlySummary?
     
+    
     let analyticsEngine: AnalyticsEngine
     let uiManager: UIManager
+    let realmService: RealmService
     
     // Пустой инициализатор для @StateObject
     init() {
         self.uiManager = UIManager()
         self.analyticsEngine = AnalyticsEngine()
+        self.realmService = RealmService()
+        
+        loadTransactionsFromRealm()
     }
     
     // Полный инициализатор для dependency injection
-    init(analyticsEngine: AnalyticsEngine, uiManager: UIManager) {
+    init(analyticsEngine: AnalyticsEngine, uiManager: UIManager, realmService: RealmService = RealmService()) {
         self.analyticsEngine = analyticsEngine
         self.uiManager = uiManager
+        self.realmService = realmService
+        
+        loadTransactionsFromRealm()
     }
+    
+    private func loadTransactionsFromRealm() {
+            let realmTransactions = realmService.loadAllTransactions()
+            self.transactions = realmTransactions
+            updateAllAnalytics()
+            print("✅ Загружено \(realmTransactions.count) транзакций из Realm")
+        }
     
     func addTransaction(_ transaction: FinancialTransaction) {
         // Добавляем транзакцию на главном потоке
@@ -33,6 +48,7 @@ class TransactionManager: ObservableObject {
             self.updateAnalytics()
             self.uiManager.triggerHaptic(.light)
             self.updateAllAnalytics()
+            self.realmService.saveTransaction(transaction)
             print("✅ Добавлена транзакция: \(transaction.description) - \(transaction.amount) BYN")
             print("📊 Транзакций всего: \(self.transactions.count)")
             
@@ -41,7 +57,41 @@ class TransactionManager: ObservableObject {
 //                self.updateAllAnalytics()
 //            }
         }
+        
     }
+    
+    func deleteTransaction(_ transaction: FinancialTransaction) {
+            DispatchQueue.main.async {
+                self.transactions.removeAll { $0.id == transaction.id }
+                self.updateAnalytics()
+                self.updateAllAnalytics()
+                // Удаляем из Realm
+                self.realmService.deleteTransaction(transaction)
+                
+                print("🗑️ Удалена транзакция: \(transaction.description)")
+                
+//                DispatchQueue.global(qos: .userInitiated).async {
+//                    self.updateAllAnalytics()
+//                }
+            }
+        }
+    
+    func clearAllData() {
+            DispatchQueue.main.async {
+                self.transactions.removeAll()
+                self.monthlySummary = nil
+                
+                // Очищаем Realm
+                self.realmService.deleteAllTransactions()
+                
+                self.updateAllAnalytics()
+                print("🗑️ Все данные очищены")
+                
+//                DispatchQueue.global(qos: .userInitiated).async {
+//                    self.updateAllAnalytics()
+//                }
+            }
+        }
     
     func processSMSMessages(_ messages: [String]) {
         let parser = SMSParser()

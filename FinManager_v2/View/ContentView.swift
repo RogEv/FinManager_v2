@@ -11,6 +11,7 @@ struct ContentView: View {
     @StateObject private var transactionManager = TransactionManager()
     @StateObject private var uiManager = UIManager()
     @StateObject private var analyticsEngine = AnalyticsEngine()
+    @StateObject private var realmService = RealmService()
     
     @State private var showingManualTransaction = false
     @State private var showingSMSInput = false
@@ -84,7 +85,9 @@ struct ContentView: View {
             
             // Вкладка с историей транзакций
             NavigationView {
-                TransactionsListView(transactions: transactionManager.transactions)
+                TransactionsListView(transactions: transactionManager.transactions, onDelete: { transaction in
+                    transactionManager.deleteTransaction(transaction)
+                })
                     .navigationTitle("История операций")
             }
             .tabItem {
@@ -110,7 +113,7 @@ struct ContentView: View {
             
             // Вкладка с настройками
             NavigationView {
-                SettingsView(uiManager: uiManager)
+                SettingsView(uiManager: uiManager, transactionManager: transactionManager)
                     .navigationTitle("Настройки")
             }
             .tabItem {
@@ -286,6 +289,7 @@ struct BudgetAlertsView: View {
 
 struct TransactionsListView: View {
     let transactions: [FinancialTransaction]
+    var onDelete: ((FinancialTransaction) -> Void)? = nil
     
     var body: some View {
         List {
@@ -294,6 +298,13 @@ struct TransactionsListView: View {
             } else {
                 ForEach(transactions.sorted { $0.date > $1.date }) { transaction in
                     TransactionRow(transaction: transaction)
+                }
+                .onDelete { indexSet in
+                    if let onDelete = onDelete {
+                        for index in indexSet {
+                            onDelete(transactions[index])
+                        }
+                    }
                 }
             }
         }
@@ -348,6 +359,8 @@ struct EmptyStateView: View {
 
 struct SettingsView: View {
     @ObservedObject var uiManager: UIManager
+    @ObservedObject var transactionManager: TransactionManager
+    @State private var showingClearAlert = false
     
     var body: some View {
         Form {
@@ -370,6 +383,13 @@ struct SettingsView: View {
                 }
             }
             
+            Section(header: Text("Данные")) {
+                            Button("Очистить все данные") {
+                                showingClearAlert = true
+                            }
+                            .foregroundColor(.red)
+                        }
+            
             Section(header: Text("О приложении")) {
                 HStack {
                     Text("Версия")
@@ -386,6 +406,14 @@ struct SettingsView: View {
                 }
             }
         }
+        .alert("Очистить все данные?", isPresented: $showingClearAlert) {
+                    Button("Отмена", role: .cancel) { }
+                    Button("Очистить", role: .destructive) {
+                        transactionManager.clearAllData()
+                    }
+                } message: {
+                    Text("Это действие нельзя отменить. Все транзакции будут удалены.")
+                }
     }
 }
 

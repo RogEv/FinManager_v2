@@ -9,12 +9,31 @@ import Foundation
 import NaturalLanguage
 
 struct FinancialTransaction: Identifiable {
-    let id = UUID()
+    let id: UUID
     let amount: Double
     let category: TransactionCategory
     let date: Date
     let description: String
     let type: TransactionType
+    
+    init(amount: Double, category: TransactionCategory, date: Date, description: String, type: TransactionType) {
+            self.id = UUID()
+            self.amount = amount
+            self.category = category
+            self.date = date
+            self.description = description
+            self.type = type
+        }
+        
+        // Новый инициализатор с ID
+        init(id: UUID = UUID(), amount: Double, category: TransactionCategory, date: Date, description: String, type: TransactionType) {
+            self.id = id
+            self.amount = amount
+            self.category = category
+            self.date = date
+            self.description = description
+            self.type = type
+        }
 }
 
 enum TransactionCategory: String, CaseIterable {
